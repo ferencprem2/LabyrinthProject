@@ -1,27 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "D:\\C#\\Labyrinth\\Labyrinth\\Labyrinth.csproj": {}
+    "/Users/ferenc/Documents/ProgrammingStuff/C#/Labyrinth/Labyrinth.csproj": {}
   },
   "projects": {
-    "D:\\C#\\Labyrinth\\Labyrinth\\Labyrinth.csproj": {
+    "/Users/ferenc/Documents/ProgrammingStuff/C#/Labyrinth/Labyrinth.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\C#\\Labyrinth\\Labyrinth\\Labyrinth.csproj",
+        "projectUniqueName": "/Users/ferenc/Documents/ProgrammingStuff/C#/Labyrinth/Labyrinth.csproj",
         "projectName": "Labyrinth",
-        "projectPath": "D:\\C#\\Labyrinth\\Labyrinth\\Labyrinth.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "D:\\C#\\Labyrinth\\Labyrinth\\obj\\",
+        "projectPath": "/Users/ferenc/Documents/ProgrammingStuff/C#/Labyrinth/Labyrinth.csproj",
+        "packagesPath": "/Users/ferenc/.nuget/packages/",
+        "outputPath": "/Users/ferenc/Documents/ProgrammingStuff/C#/Labyrinth/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/ferenc/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -55,7 +54,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.101/RuntimeIdentifierGraph.json"
         }
       }
     }
