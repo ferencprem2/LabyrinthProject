@@ -7,8 +7,14 @@ using System.IO;
 
 namespace Labyrinth
 {
+
+
+
     internal class Program
     {
+
+        /*
+
         public enum MapComponents
         {
             fillerElement = '.',
@@ -23,15 +29,16 @@ namespace Labyrinth
             horizontalLeftturnElement = '╗',
             horizontalRightturnElement = '╔',
             verticalLeftturnElement = '╝',
-            verticalRightturnElement = '╔'
+            verticalRightturnElement = '╚'
         }
+        */
 
 
         static void Main(string[] args)
         {
             int xAxis = 0;
             int yAxis = 0;
-            //char[] mapComponents = { '.', '█', '╬', '═', '╦', '╩', '║', '╣', '╠', '╗', '╝', '╚', '╔' };
+            
 
 
 
@@ -50,7 +57,7 @@ namespace Labyrinth
                         LoadMapFromFile(path);
                         DisplayMapOnScreen(LoadMapFromFile(path), xAxis, yAxis);
                         RoomInMap(LoadMapFromFile(path));
-                        LocateExtractPoints(LoadMapFromFile(path), xAxis, yAxis);
+                        LocateExitPoints(LoadMapFromFile(path), xAxis, yAxis);
                         break;
                     case ConsoleKey.D:
                         break;
@@ -61,10 +68,6 @@ namespace Labyrinth
 
 
             } while (!leaveGame);
-
-
-
-
         }
 
         static char[,] LoadMapFromFile(string path)
@@ -97,13 +100,13 @@ namespace Labyrinth
 
         static int RoomInMap(char[,] map)
         {
-            //char room = '█';
+            char room = '█';
             int roomsInMap = 0;
             for (int i = 0; i < map.GetLength(0); i++)
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    if (map[i, j] == (char)MapComponents.roomElement)
+                    if (map[i, j] == room)
                     {
                         roomsInMap++;
                     }
@@ -117,58 +120,50 @@ namespace Labyrinth
             return roomsInMap;
         }
 
-        static Dictionary<int, int> LocateExtractPoints(char[,] map, int xAxis, int yAxis)
+        static Dictionary<int, int> LocateExitPoints(char[,] map, int xAxis, int yAxis)
         {
-            Dictionary<int, int> extractPoints = new Dictionary<int, int>();
+            Dictionary<int, int> exitPoints = new Dictionary<int, int>();
+            
+            char[] leftsideExits = {'╬', '═', '╦', '╩', '╣', '╗', '╝'};
+            char[] rightsideExits = {'╬', '═', '╦', '╩','╠', '╚', '╔' };
+            char[] topsideExits = {'╬','╩', '║', '╣', '╠','╝', '╚'};
+            char[] bottomtsideExits = {'╬','╦','║', '╣', '╠', '╗','╔' };
+            //string[] realExitCoordinates = new string[map.GetLength(0) * map.GetLength(1)];
+            List<string> realExitCoordinates = new List<string>();
+
 
             for (int i = 0; i < map.GetLength(0); i++)
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
+                    if (i == 0 && topsideExits.Contains(map[i, j]))
+                    {
+                        realExitCoordinates.Add($"{i}-{j}");
 
-                    if (j == 0 || j == map.GetLength(1) - 1)
-                    {
-                        switch (map[i, j])
-                        {
-                            case (char)MapComponents.horizontalRouteElement:
-                                Console.WriteLine($"{MapComponents.horizontalRouteElement}--{i}-{j}");
-                                break;
-                        }
                     }
-                    else if (j == 0 || i == map.GetLength(1) - 1)
+                    if (i == map.GetLength(0)-1 && bottomtsideExits.Contains(map[i, j]))
                     {
-                        switch (map[i, j])
-                        {
-                            case (char)MapComponents.horizontalLeftturnElement:
-                                Console.WriteLine($"{MapComponents.horizontalLeftturnElement}--{i}-{j}");
-                                break;
-
-                        }
+                        realExitCoordinates.Add($"{i}-{j}");
                     }
-                    else if (i == 0 || i == map.GetLength(0) - 1)
+                    if (j == 0 && leftsideExits.Contains(map[i, j]))
                     {
-                        switch (map[i, j])
-                        {
-                            case (char)MapComponents.verticalRouteElement:
-                                Console.WriteLine($"{MapComponents.verticalRouteElement}--{i}-{j}");
-                                break;
-                        }
+                        realExitCoordinates.Add($"{i}-{j}");
+                    }
+                    if (j == map.GetLength(1)-1 && rightsideExits.Contains(map[i, j]))
+                    {
+                        realExitCoordinates.Add($"{i}-{j}");
                     }
                 }
             }
 
+            foreach (var item in realExitCoordinates)
+            {
+                Console.WriteLine(item);
+            }
 
-            return extractPoints;
-        }
-
-
-        static void RoomsFound(char[,] map, int roomsOnMap)
-        {
+            return exitPoints;
 
         }
     }
+
 }
-//if (map[i, j] == mapComponents[3] && (j == 0 || j == map.GetLength(1) - 1))
-//{
-//    Console.WriteLine($"{i}-{j}");
-//}
