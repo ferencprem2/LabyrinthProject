@@ -13,27 +13,6 @@ namespace Labyrinth
     internal class Program
     {
 
-        /*
-
-        public enum MapComponents
-        {
-            fillerElement = '.',
-            roomElement = '█',
-            fourDirectionalElement = '╬',
-            horizontalRouteElement = '═',
-            horizontalDownwardsThreeDirectionalElement = '╦',
-            horizontalUpwardsThreeDirectionalElement = '╩',
-            verticalRouteElement = '║',
-            verticalLeftwardsThreeDirectionalElement = '╣',
-            verticalRightwardsThreeDirectionalElement = '╠',
-            horizontalLeftturnElement = '╗',
-            horizontalRightturnElement = '╔',
-            verticalLeftturnElement = '╝',
-            verticalRightturnElement = '╚'
-        }
-        */
-
-
         static void Main(string[] args)
         {
             int xAxis = 0;
@@ -57,7 +36,8 @@ namespace Labyrinth
                         LoadMapFromFile(path);
                         DisplayMapOnScreen(LoadMapFromFile(path), xAxis, yAxis);
                         RoomInMap(LoadMapFromFile(path));
-                        LocateExitPoints(LoadMapFromFile(path), xAxis, yAxis);
+                        LocateExitPoints(LoadMapFromFile(path));
+                        FakeExitChecker(LocateExitPoints(LoadMapFromFile(path)), LoadMapFromFile(path));
                         break;
                     case ConsoleKey.D:
                         break;
@@ -120,16 +100,18 @@ namespace Labyrinth
             return roomsInMap;
         }
 
-        static Dictionary<int, int> LocateExitPoints(char[,] map, int xAxis, int yAxis)
+        static List<string> LocateExitPoints(char[,] map)
         {
-            Dictionary<int, int> exitPoints = new Dictionary<int, int>();
+            
             
             char[] leftsideExits = {'╬', '═', '╦', '╩', '╣', '╗', '╝'};
             char[] rightsideExits = {'╬', '═', '╦', '╩','╠', '╚', '╔' };
             char[] topsideExits = {'╬','╩', '║', '╣', '╠','╝', '╚'};
             char[] bottomtsideExits = {'╬','╦','║', '╣', '╠', '╗','╔' };
-            //string[] realExitCoordinates = new string[map.GetLength(0) * map.GetLength(1)];
+            int coordinateIndex = 0;
+            ValueTuple<int, int, int> exitCoordinates = new ValueTuple<int, int, int>();
             List<string> realExitCoordinates = new List<string>();
+            
 
 
             for (int i = 0; i < map.GetLength(0); i++)
@@ -138,6 +120,10 @@ namespace Labyrinth
                 {
                     if (i == 0 && topsideExits.Contains(map[i, j]))
                     {
+                        exitCoordinates.Item1 = coordinateIndex;
+                        exitCoordinates.Item2 = i;
+                        exitCoordinates.Item3 = j;
+                        coordinateIndex++;
                         realExitCoordinates.Add($"{i}-{j}");
 
                     }
@@ -156,12 +142,18 @@ namespace Labyrinth
                 }
             }
 
-            foreach (var item in realExitCoordinates)
-            {
-                Console.WriteLine(item);
-            }
+            Console.WriteLine(exitCoordinates);
 
-            return exitPoints;
+            return realExitCoordinates;
+
+        }
+
+        static void FakeExitChecker(List<string>exits, char[,] map)
+        {
+            ValueTuple<int, int, int> realExitCoordinates = new ValueTuple<int, int, int>();   
+          
+            
+
 
         }
     }
