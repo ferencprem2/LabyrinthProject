@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yv/ZcMI9lUWIWstYojBjPXgPrpHJ5+yN18oGNOmqyhGUh44hO6ZTtcMEfeFSGTh5oTRtxAER4emp3p3jwszmYw==",
+  "dgSpecHash": "Qb5CqFsmp/siCIl8l3NRnoEosDe0c9UyMEZPXzd4OBKJlsuJxMy92dLECmkSS0i3Nlxb3JdX7nG5MXRuome5Kw==",
   "success": true,
-  "projectFilePath": "/Users/ferenc/Documents/ProgrammingStuff/C#/Labyrinth/Labyrinth.csproj",
+  "projectFilePath": "D:\\C#\\Labyrinth\\Labyrinth\\Labyrinth.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
