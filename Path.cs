@@ -10,7 +10,7 @@ namespace Labyrinth
     public class Path
     {
         private readonly char _item;
-        private bool _isExit, _west, _north, _east, _south;
+        private bool _isExit, _isEntrace ,_west, _north, _east, _south;
         private int[,] _index;
         public char Item => _item;
         public bool West => _west;
@@ -18,6 +18,7 @@ namespace Labyrinth
         public bool East => _east;
         public bool South => _south;
         public bool IsExit => _isExit;
+        public bool IsEntrance => _isEntrace;
         public int[,] Index => _index;
         public Path(char item, bool west, bool north, bool east, bool south)
         {
@@ -55,6 +56,10 @@ namespace Labyrinth
         public void SetExit(bool isExit)
         {
             _isExit = isExit;
+        }
+        public void SetEntrance(bool isEntrance)
+        {
+            _isEntrace = isEntrance;
         }
         public int[,] GoWest()
         {

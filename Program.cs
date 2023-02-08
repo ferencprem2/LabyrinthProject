@@ -42,11 +42,13 @@ namespace Labyrinth
             int[,] asd = new int[10, 20];
             while (true)
             {
+                /*
                 Console.Clear();
                 Console.WriteLine(asd.GetLength(0));
                 Console.WriteLine(asd.GetLength(1));
                 Console.WriteLine(index.GetLength(0));
                 Console.WriteLine(index.GetLength(1));
+                */
                 for (int y = 0; y < asd.GetLength(0); y++)
                 {
                     for (int x = 0; x < asd.GetLength(1); x++)
@@ -84,9 +86,7 @@ namespace Labyrinth
             do
             {
                 Console.Clear();
-                Console.WriteLine();
                 Console.WriteLine(message);
-                Console.WriteLine();
                 Console.WriteLine("Press (s) to start the game");
                 Console.WriteLine("Press (d) to choose difficulty");
                 Console.WriteLine("Press (l) to leave the game");
@@ -96,6 +96,7 @@ namespace Labyrinth
                 {
                     case ConsoleKey.S:
                         isMenu = false;
+                        Console.Clear();
                         break;
                     case ConsoleKey.K:
                         string mazePath = "minta.txt";
@@ -123,12 +124,14 @@ namespace Labyrinth
                         Environment.Exit(0);
                         break;
                 }
+
             } while (isMenu);
         }
 
         //Normal game
         static void NormalGame()
         {
+            Console.Clear();
             int[,] index = new int[1, 0];
             int[,] next = index;
             string? message = string.Empty;
@@ -137,6 +140,7 @@ namespace Labyrinth
             maze[5, 8].SetExit(true);
             while (isRunning)
             {
+                //If a player finds an exit, they can choose to leave or stay in the game
                 try
                 {
                     Path current = maze[index.GetLength(0), index.GetLength(1)];
@@ -197,7 +201,10 @@ namespace Labyrinth
             Console.WriteLine();
             Console.WriteLine(message);
             Console.WriteLine();
-            try
+            Random randomChoice = new Random();
+            int[,] entraces = { { 3, 17 }, { 2, 16 }, { 5, 5 } };
+
+           try
             {
                 for (int y = 0; y < maze.GetLength(0); y++)
                 {
