@@ -73,6 +73,7 @@ namespace Maze
                 {
                     Console.WriteLine(GlobalLanguage(i));
                 }
+                
                 Console.Write("\n\n\n");
                 switch (Console.ReadKey(true).Key)
                 {
@@ -180,7 +181,7 @@ namespace Maze
             LoadMap("minta.txt");
             bool exit = false;
             string message = string.Empty;
-            _maze.exits = new Path[,] { {5, 7}, };
+            
             do
             {
                 Display(message);
@@ -236,7 +237,7 @@ namespace Maze
                         {
                             Console.BackgroundColor = _maze.Player.Color;
                         }
-                        Console.Write(GetVoidChar(_maze.GetMapItem(new Coordinate(y, x))));
+                        Console.Write(_maze.GetMapItem(new Coordinate(y, x)));
                         Console.ResetColor();
                     }
                     Console.WriteLine();

@@ -74,10 +74,34 @@ namespace Maze
             }
         }
 
-        public void LocateExits()
+        //TODO ellenőrízni
+        public List<Coordinate> LocateExits()
         {
-
+            for (int i = 0; i < _map.GetLength(0); i++)
+            {
+                for (int j = 0; j < _map.GetLength(1); j++)
+                {
+                    if (i == 0 && _map[i,j].North == true)
+                    {
+                        exits.Add(_map[i,j].Coordinate);
+                    }
+                    else if (i == _map.GetLength(1)-1 && _map[i,j].South == true)
+                    {
+                        exits.Add(_map[i, j].Coordinate);
+                    }
+                    else if (j == 0 && _map[i,j].West == true)
+                    {
+                        exits.Add(_map[i, j].Coordinate);
+                    }
+                    else if (j == _map.GetLength(1)-1 && _map[i,j].East == true)
+                    {
+                        exits.Add(_map[i, j].Coordinate);
+                    }
+                }
+            }
+            return exits;
         }
+
         public char GetMapItem(Coordinate coordinate)
         {
             return _map[coordinate.Y, coordinate.X].Item;
@@ -89,7 +113,15 @@ namespace Maze
             {
                 case Direction.West:
                     if (!_map[_player.Coordinate.Y, _player.Coordinate.X].West) throw new ImpassablePathException();
-                    coordinate = new Coordinate(_player.Coordinate.Y, _player.Coordinate.X - 1);
+                    if (_map[_player.Coordinate.Y, _player.Coordinate.X - 1] == _map[coordinate.Y, coordinate.X])
+                    {
+                        Console.WriteLine("Faszom belerakom anyádba");
+                    }
+                    else
+                    {
+                        coordinate = new Coordinate(_player.Coordinate.Y, _player.Coordinate.X - 1);
+                    }
+                    
                     break;
                 case Direction.North:
                     if (!_map[_player.Coordinate.Y, _player.Coordinate.X].North) throw new ImpassablePathException();
