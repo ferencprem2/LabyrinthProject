@@ -9,6 +9,6 @@ namespace Labyrinth
 {
     public class ImpossiblePathException : Exception
     {
-
+        
     }
 }

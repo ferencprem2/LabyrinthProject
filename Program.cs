@@ -212,10 +212,9 @@ namespace Labyrinth
                     {
                         if (index.GetLength(0) == y && x == index.GetLength(1))
                         {
-                            //Player Color
+                            //Player On Screen, Player Color
                             Console.BackgroundColor = ConsoleColor.Green;
                         }
-                        //Put player on screen
                         Console.Write(maze[y, x].Item);
                         Console.ResetColor();
                     }
