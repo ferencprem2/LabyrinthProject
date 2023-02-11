@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Labyrinth
 {
-    public class ImpossiblePathException : Exception
+    public class ImpassablePathException : Exception
     {
         
     }
