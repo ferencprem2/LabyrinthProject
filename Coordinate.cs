@@ -18,5 +18,15 @@
         {
             return y == _y && x == _x;
         }
+
+        public bool CheckCoordinate(Coordinate cordinate)
+        {
+            return cordinate.Y == _y && cordinate.X == _x;
+        }
+
+        public override string ToString()
+        {
+            return $"X:{_x}\tY:{_y}";
+        }
     }
 }

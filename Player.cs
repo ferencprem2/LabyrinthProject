@@ -6,66 +6,81 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-using Labyrinth;
 
 namespace Maze
 {
     public class Player
     {
         private Coordinate _position;
-        private Level _level;
+        public Coordinate Coordinate => _position;
+
         private ConsoleColor _color;
+        public ConsoleColor Color => _color;
+
+        private int _steps;
+        public int Steps => _steps;
+
+        private int _remainingSteps;
+        public int RemainingSteps => _remainingSteps;
+
+        private int _treasure;
+        public int Treasure => _treasure;
 
         private bool _canMove;
-        private int _steps;
-        private int _remainingSteps;
-
-
-        public Coordinate Coordinate => _position;
-        public Level Level => _level;
-        public ConsoleColor Color => _color;
+        public bool CanMove => _canMove;
 
         public Player()
         {
-            _position = new Coordinate(1, 0);
-            _level = Level.Easy;
+            _position = new Coordinate(0, 0);
             _color = ConsoleColor.Green;
+            _steps = 0;
+            _remainingSteps = int.MaxValue;
+            _treasure = 0;
+            _canMove = true;
         }
-        public Player(Coordinate position)
+        public Player(Coordinate position, int remainingSteps)
         {
             _position = position;
-            _level = Level.Easy;
             _color = ConsoleColor.Green;
+
+            _treasure = 0;
+
+            _canMove = true;
+            _steps = 0;
+            _remainingSteps = remainingSteps;
         }
-        public Player(Coordinate position, Level level)
+        public Player(Coordinate position, ConsoleColor color, int remainingSteps)
         {
             _position = position;
-            _level = level;
-            _color = ConsoleColor.Green;
-        }
-        public Player(Coordinate position, Level level, ConsoleColor color)
-        {
-            _position = position;
-            _level = level;
             _color = color;
+
+            _treasure = 0;
+
+            _canMove = true;
+            _steps = 0;
+            _remainingSteps = remainingSteps;
         }
 
-        private void SetRemainingSteps()
-        {
-            switch (_level)
-            {
-                case Level.Easy: _remainingSteps = int.MaxValue; break;
-                case Level.Medium: _remainingSteps = 100; break;
-                case Level.Hard: _remainingSteps = 50; break;
-                case Level.GigaChad: _remainingSteps = 16; break;
-                default: break;
-            }
-        }
+
         public void Step(Coordinate coordinate)
         {
+            if (!_canMove) throw new OutOfStepsException();
             _position = coordinate;
             _steps++;
             _remainingSteps--;
+            if (_remainingSteps <= 0) _canMove = false;
+        }
+        public void SetRemainingSteps(int remainingSteps)
+        {
+            _remainingSteps = remainingSteps;
+        }
+        public void SetColor(ConsoleColor consoleColor)
+        {
+            _color = consoleColor;
+        }
+        public void AddTreasure()
+        {
+            _treasure++;
         }
     }
 }

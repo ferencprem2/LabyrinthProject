@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Labyrinth;
 
 namespace Maze
 {
@@ -12,7 +11,7 @@ namespace Maze
     {
         // test
         private readonly char _item;
-        private bool _isExit, _west, _north, _east, _south;
+        private bool _isExit, _isWall, _isTreasure, _west, _north, _east, _south;
         private Coordinate _coordinate;
         public char Item => _item;
         public bool West => _west;
@@ -23,6 +22,18 @@ namespace Maze
         public Coordinate Coordinate => _coordinate;
         // idegesít
         public Path() { }
+        public Path(char item, bool isWall, bool isTreasure, bool west, bool north, bool east, bool south)
+        {
+            _item = item;
+
+            _isWall = isWall;
+            _isTreasure = isTreasure;
+
+            _west = west;
+            _north = north;
+            _east = east;
+            _south = south;
+        }
         public Path(char item, bool west, bool north, bool east, bool south)
         {
             _item = item;
@@ -59,6 +70,23 @@ namespace Maze
         public void SetExit(bool isExit)
         {
             _isExit = isExit;
+        }
+
+        public Coordinate GetCoordinateOf(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.West:
+                    return new Coordinate(_coordinate.Y, _coordinate.X - 1);
+                case Direction.North:
+                    return new Coordinate(_coordinate.Y - 1, _coordinate.X);
+                case Direction.East:
+                    return new Coordinate(_coordinate.Y, _coordinate.X + 1);
+                case Direction.South:
+                    return new Coordinate(_coordinate.Y + 1, _coordinate.X);
+            }
+            // Nem futhatna ide be
+            return _coordinate;
         }
     }
 }
