@@ -23,20 +23,32 @@ namespace Maze
         static void InitializeLanguages()
         {
             _hungarianWords = new Dictionary<int, string> {
-                { 0, "Játék elindításához"},
+                { 0, "Játék indítása"},
                 { 1, "Beállítások"},
-                { 2, "Kilépéshez"},
+                { 2, "Kilépés"},
                 { 3, "Nehézségi beállítások"},
-                { 5, "Nyomja meg az (l) gombot a pálya betöltéséhez"},
+                { 4, "Válasszon nehézséget: "},
+                { 6, "A fájl nem található"},
                 { 7, "Nyomja meg az (esc) gombot a játékbenü megnyitásához"},
                 { 8, "Játék elmentve"},
                 { 10, "Karakter színe"},
                 { 11, "Nyelv"},
-                { 12, "Nyomja meg a (b) gombot a menübe való visszalépéshez"},
+                { 12, "Vissza a menübe"},
                 { 13, "Oda nem léphetsz"},
+                { 16, "Sor"},
+                { 17, "Oszlop"},
+                { 18, "Pálya neve: "},
+                { 19, "Pálya mérete: "},
+                { 20, "Lépések száma: "},
+                { 21, "Rendelkezésre álló lépések száma: "},
+                { 22, "Felfedezett szobák száma: "},
+                { 23, "Következő lépés: "},
+                { 24, "Hátralévő idő: "},
                 { 30, "Magyar"},
                 { 31, "Angol"},
-                { 32, "Nyelv választás"},
+                { 32, "Válasszon nyelvet: "},
+                { 40, "Játék betöltése: "},
+                { 42, "Elfogytak a lépései" },
                 { 50, "Könnyű"},
                 { 51, "Haladó"},
                 { 52, "Nehéz"},
@@ -47,16 +59,25 @@ namespace Maze
                 { 98, "Nyomja meg az igen (y) gombot a megerősítéshez/ Nyomja meg a nem (n) gombot a visszalépéshez"},
                 { 99, "Biztosan kiakarsz lépni?"},
                 { 101, "Tényleg ugrani akartál egy felülnézetes játékban?"},
-                { 116, "Mentés neve: "}
+                { 110, "Piros"},
+                { 111, "Zöld"},
+                { 112, "Kék"},
+                { 113, "Sárga"},
+                { 114, "Lila"},
+                { 115, "Játék vége"},
+                { 116, "Mentés neve: "},
+                { 117, "Nyomja meg az (y) a kilépéshez"},
+                { 118, "Fájlnév: " },
+                { 119, "Üres a labirintus"},
+                { 120, "Biztosan ki akarsz lépni a labirintusból? "}
             };
-
             _englishWords = new Dictionary<int, string> {
                 { 0, "Start the game" },
                 { 1, "Settings"},
                 { 2, "Exit the game"},
                 { 3, "Difficulty"},
-                { 4, "Press (m) to make a map" },
-                { 5, "Press (l) to load map" },
+                { 4, "Choose Difficulty: "},
+                { 6, "Couldn't find the file"},
                 { 7, "Press (esc) to open the Pause Menu"},
                 { 8, "Game saved"},
                 { 10, "Player Color" },
@@ -74,9 +95,8 @@ namespace Maze
                 { 24, "Remaining time: "},
                 { 30, "Hungarian"},
                 { 31, "English"},
-                { 32, "Choose Language"},
+                { 32, "Choose Language: "},
                 { 40, "Load Game"},
-                { 41, "Map Creator"},
                 { 42, "Out of Steps"},
                 { 50, "Easy"},
                 { 51, "Medium"},
@@ -86,7 +106,7 @@ namespace Maze
                 { 91, "Save"},
                 { 92, "Exit"},
                 { 98, "Press yes(y) to confirm/Press no(n) to go back"},
-                { 99, "Are you sure you wanna exit the game?"},
+                { 99, "Are you sure you want to exit the game?"},
                 { 101, "You really wanted to jump in a top-view game?"},
                 { 110, "Red"},
                 { 111, "Green"},
@@ -94,7 +114,11 @@ namespace Maze
                 { 113, "Yellow"},
                 { 114, "Magenta"},
                 { 115, "Game Over"},
-                { 116, "Name of the save: "}
+                { 116, "Name of the save: "},
+                { 117, "Press (y) to leave"},
+                { 118, "File name: " },
+                { 119, "The labyrinth is empty"},
+                { 120, "Are you sure you want to leave the labyrinth?"}
             };
 
         }
@@ -264,12 +288,12 @@ namespace Maze
             do
             {
                 Console.Clear();
-                Console.Write($"\n{"Choose Language"}\n{message}\n");
+                Console.Write($"\n{GlobalLanguage(32)}\n{message}\n");
                 for (int i = 110; i < 115; i++)
                 {
                     if (i == selectedOption)
                     {
-                        Console.BackgroundColor = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), GlobalLanguage(selectedOption));
+                        Console.BackgroundColor = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), _englishWords[selectedOption]);
                     }
                     Console.WriteLine(GlobalLanguage(i));
                     Console.ResetColor();
@@ -286,7 +310,7 @@ namespace Maze
                         selectedOption = selectedOption <= 110 ? 114 : selectedOption - 1;
                         break;
                     case ConsoleKey.Enter:
-                        _player.SetColor((ConsoleColor)Enum.Parse(typeof(ConsoleColor), GlobalLanguage(selectedOption)));
+                        _player.SetColor((ConsoleColor)Enum.Parse(typeof(ConsoleColor), _englishWords[selectedOption]));
                         exit = true;
                         break;
                 }
@@ -299,8 +323,8 @@ namespace Maze
             do
             {
                 Console.Clear();
-                Console.Write($"\n{"Choose Language"}\n{message}\n");
-                for (int i = 40; i < 42; i++)
+                //Console.Write($"\n{GlobalLanguage(32)}\n{message}\n");
+                for (int i = 40; i < 41; i++)
                 {
                     if (i == selectedOption)
                     {
@@ -313,23 +337,12 @@ namespace Maze
                 Console.Write("\n\n\n");
                 switch (Console.ReadKey(true).Key)
                 {
-                    case ConsoleKey.S:
-                    case ConsoleKey.DownArrow:
-                        selectedOption = selectedOption >= 41 ? 40 : selectedOption + 1;
-                        break;
-                    case ConsoleKey.W:
-                    case ConsoleKey.UpArrow:
-                        selectedOption = selectedOption <= 40 ? 41 : selectedOption - 1;
-                        break;
                     case ConsoleKey.Enter:
                         switch (selectedOption)
                         {
                             case 40:
                                 LoadGame();
                                 exit = true;
-                                break;
-                            case 41:
-                                throw new NotImplementedException();
                                 break;
                             default:
                                 break;
@@ -360,7 +373,7 @@ namespace Maze
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("Üres a labirintus");
+                Console.WriteLine(GlobalLanguage(119));
                 throw;
             }
             catch (Exception ex)
@@ -426,11 +439,9 @@ namespace Maze
                 catch (GiveupException)
                 {
                     //TODO rename
-                    Console.WriteLine("Kutya vagy??? vau vau?");
+                    
                     if (Console.ReadKey(true).Key == ConsoleKey.Y)
                     {
-                        //TODO rename
-                        message = "szar vagy";
                         Thread.Sleep(1000);
                         exit = true;
                     }
@@ -438,11 +449,9 @@ namespace Maze
                 catch (EndGameException)
                 {
                     //TODO rename
-                    Console.WriteLine("Biztonsan kiakarsz lépni a labirintusbóóóóóóól?");
+                    Console.WriteLine(GlobalLanguage(120));
                     if (Console.ReadKey(true).Key == ConsoleKey.Y)
                     {
-                        //TODO rename
-                        message = "Kurva ügyes vagy b+";
                         Thread.Sleep(1000);
                         exit = true;
                     }
@@ -450,7 +459,7 @@ namespace Maze
                 catch (Exception ex)
                 {
                     //TODO rename
-                    Console.WriteLine("Azt hiszed vicces vagy? " + ex.Message);
+                    Console.WriteLine(ex.Message);
                     Console.WriteLine(ex);
                 }
             } while (!exit);
@@ -511,6 +520,7 @@ namespace Maze
         static void EndGame(string elapsedTime)
         {
             Console.WriteLine($"{GlobalLanguage(115)} - {elapsedTime}");
+            Console.WriteLine(GlobalLanguage(117));
             while (true)
             {
                 if (Console.ReadKey(true).Key == ConsoleKey.Y)
@@ -519,14 +529,6 @@ namespace Maze
                 }
             }
         }
-
-
-
-
-
-
-
-        // Jónak tűnik
         static void LoadGame()
         {
             bool exit = false;
@@ -535,7 +537,7 @@ namespace Maze
                 try
                 {
                     Console.Clear();
-                    Console.Write($"\n{message}\n{"fájlnév: "}");
+                    Console.Write($"\n{message}\n{GlobalLanguage(118)}");
                     string filename = Console.ReadLine();
                     if (filename.EndsWith(".txt"))
                     {
@@ -561,7 +563,7 @@ namespace Maze
                 }
                 catch (FileNotFoundException)
                 {
-                    message = "A fájl nem található";
+                    message = GlobalLanguage(6);
                 }
                 catch (Exception ex)
                 {
@@ -578,7 +580,7 @@ namespace Maze
             do
             {
                 Console.Clear();
-                Console.Write($"\n{"Choose Difficulty"}\n{message}\n");
+                Console.Write($"\n{GlobalLanguage(4)}\n{message}\n");
                 for (int i = 50; i < 54; i++)
                 {
                     if (i == selectedOption)
@@ -601,7 +603,7 @@ namespace Maze
                         selectedOption = selectedOption <= 50 ? 53 : selectedOption - 1;
                         break;
                     case ConsoleKey.Enter:
-                        difficulty = (Difficulty)Enum.Parse(typeof(Difficulty), GlobalLanguage(selectedOption));
+                        difficulty = (Difficulty)Enum.Parse(typeof(Difficulty), _englishWords[selectedOption]);
                         exit = true;
                         break;
                 }
@@ -637,11 +639,10 @@ namespace Maze
             catch (Exception ex)
             {
                 //TODO rename
-                Console.WriteLine("Normális agy?v");
+                Console.WriteLine();
                 Console.WriteLine(ex.Message);
                 Console.ReadKey();
             }
-            //time-in-maze || remaining time-in-maze
         }
     }
 }
