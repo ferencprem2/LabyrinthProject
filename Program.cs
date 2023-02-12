@@ -36,6 +36,7 @@ namespace Maze
                 { 13, "Oda nem léphetsz"},
                 { 30, "Magyar"},
                 { 31, "Angol"},
+                { 32, "Nyelv választás"},
                 { 50, "Könnyű"},
                 { 51, "Haladó"},
                 { 52, "Nehéz"},
