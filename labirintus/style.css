@@ -1,0 +1,84 @@
+body{
+    background-image:url(/képek/wallpaperflare.com_wallpaper.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    background-position:center;
+    background-attachment: fixed;
+    font-size: larger;
+}
+.main{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    max-width: 1400px;
+    width: 100%;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.404);
+}
+
+button:hover{
+    background-color:darkblue;
+}
+#hu{
+    float:right;
+    margin-right: 20px;
+}
+button{
+    width: 150px;
+    margin-left:20px ;
+    font-size: medium;
+    color: white;
+    background: linear-gradient(90deg, rgba(133, 128, 106, 0.234) 100%, rgba(0,212,255,1) 100%);
+}
+
+h1{
+    text-align: center;
+}
+
+#kep{
+    margin-top: 20px;
+    padding-left: 3.5%;
+    width: 1300px;
+    height: 500px;
+}
+
+.kep2{
+    margin-top: 20px;
+    padding-left: 20px;
+    width: 300px;
+    height:250px;
+}
+.kep3{
+    margin-top: 20px;
+    padding-left: 20px;
+}
+
+h2,p{
+    padding-left: 20px;
+}
+
+ul{
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+ul li{
+        line-height: 30px;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #7d7c7c;
+}
+  
+
+::-webkit-scrollbar-thumb {
+    background: #f2f1f1;
+}
+  
+
+::-webkit-scrollbar-thumb:hover {
+    background: #e0d9d9;
+}
