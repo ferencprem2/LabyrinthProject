@@ -29,38 +29,24 @@ namespace Maze
         private bool _canMove;
         public bool CanMove => _canMove;
 
-        public Player()
+        public Player(ConsoleColor color)
         {
             _position = new Coordinate(0, 0);
-            _color = ConsoleColor.Green;
+            _color = color;
             _steps = 0;
-            _remainingSteps = int.MaxValue;
+            _remainingSteps = 0;
             _treasure = 0;
             _canMove = true;
         }
-        public Player(Coordinate position, int remainingSteps)
-        {
-            _position = position;
-            _color = ConsoleColor.Green;
-
-            _treasure = 0;
-
-            _canMove = true;
-            _steps = 0;
-            _remainingSteps = remainingSteps;
-        }
-        public Player(Coordinate position, ConsoleColor color, int remainingSteps)
+        public Player(Coordinate position, ConsoleColor color, int steps, int treasure)
         {
             _position = position;
             _color = color;
-
-            _treasure = 0;
-
+            _steps = steps;
+            _remainingSteps = 0;
+            _treasure = treasure;
             _canMove = true;
-            _steps = 0;
-            _remainingSteps = remainingSteps;
         }
-
 
         public void Step(Coordinate coordinate)
         {

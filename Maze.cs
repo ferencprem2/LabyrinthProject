@@ -51,45 +51,33 @@ namespace Maze
         public int Height => _map!.GetLength(0);
         public int Width => _map!.GetLength(1);
 
-
+        // Difficulty
         private Difficulty _difficulty;
         public Difficulty Difficulty => _difficulty;
+
+        //TODO Timer
+
 
         public Maze(string[] data, Difficulty difficulty, Player player)
         {
             _map = null;
             LoadMap(data);
 
-
-            GetYes();
+            // get exits and treasure chambers and entrance
+            GetInteractivePaths();
 
             // set difficulty
             _difficulty = difficulty;
 
-
             // give player and set to the start point.
             _player = player;
             _player.SetRemainingSteps(StepByDifficulty());
-            player.Step(_entrance!);
+            if (_player.Coordinate.CheckCoordinate(0, 0))
+            {
+                _player.Step(_entrance!);
+            }
         }
 
-        public Maze(int height, int width)
-        {
-            _map = new Path[height, width];
-            _treasureChambers = new List<Coordinate>();
-            _exits = new List<Coordinate>();
-            GetYes();
-            _player = new Player(_entrance!, StepByDifficulty());
-        }
-        public Maze(int height, int width, Player player)
-        {
-            _map = new Path[height, width];
-            _treasureChambers = new List<Coordinate>();
-            _exits = new List<Coordinate>();
-            GetYes();
-            _player = player;
-            _player.Step(_entrance!);
-        }
         public void LoadMap(string[] data)
         {
             _map = new Path[data.Length, data[0].Length];
@@ -97,15 +85,18 @@ namespace Maze
             {
                 for (int x = 0; x < _map.GetLength(1); x++)
                 {
-                    //TODO rename
-                    Path asd = dirtyWordsXAML.Where(z => z.Item == data[y][x]).First();
-                    _map[y, x] = new Path(asd.Item, new Coordinate(y, x), asd.West, asd.North, asd.East, asd.South);
+                    Path path = dirtyWordsXAML.Where(z => z.Item == data[y][x]).First();
+                    _map[y, x] = new Path(path.Item, new Coordinate(y, x), path.West, path.North, path.East, path.South);
                 }
             }
         }
         public char GetMapItem(Coordinate coordinate)
         {
-            return _map[coordinate.Y, coordinate.X].Item;
+            return _map![coordinate.Y, coordinate.X].Item;
+        }
+        public char GetMapItem(int y, int x)
+        {
+            return _map![y, x].Item;
         }
         public void MovePlayer(Direction direction)
         {
@@ -113,19 +104,19 @@ namespace Maze
             switch (direction)
             {
                 case Direction.West:
-                    if (!_map[_player.Coordinate.Y, _player.Coordinate.X].West) throw new ImpassablePathException();
+                    if (!_map![_player.Coordinate.Y, _player.Coordinate.X].West) throw new ImpassablePathException();
                     coordinate = new Coordinate(_player.Coordinate.Y, _player.Coordinate.X - 1);
                     break;
                 case Direction.North:
-                    if (!_map[_player.Coordinate.Y, _player.Coordinate.X].North) throw new ImpassablePathException();
+                    if (!_map![_player.Coordinate.Y, _player.Coordinate.X].North) throw new ImpassablePathException();
                     coordinate = new Coordinate(_player.Coordinate.Y - 1, _player.Coordinate.X);
                     break;
                 case Direction.East:
-                    if (!_map[_player.Coordinate.Y, _player.Coordinate.X].East) throw new ImpassablePathException();
+                    if (!_map![_player.Coordinate.Y, _player.Coordinate.X].East) throw new ImpassablePathException();
                     coordinate = new Coordinate(_player.Coordinate.Y, _player.Coordinate.X + 1);
                     break;
                 case Direction.South:
-                    if (!_map[_player.Coordinate.Y, _player.Coordinate.X].South) throw new ImpassablePathException();
+                    if (!_map![_player.Coordinate.Y, _player.Coordinate.X].South) throw new ImpassablePathException();
                     coordinate = new Coordinate(_player.Coordinate.Y + 1, _player.Coordinate.X);
                     break;
             }
@@ -137,13 +128,13 @@ namespace Maze
                 }
                 throw new EndGameException();
             }
-            if (_map[coordinate.Y, coordinate.X].Item == '.')
+            if (_map![coordinate.Y, coordinate.X].Item == '.')
             {
                 throw new ImpassablePathException();
             }
             if (_map[coordinate.Y, coordinate.X].Item == '█')
             {
-                foreach (Coordinate item in _treasureChambers)
+                foreach (Coordinate item in _treasureChambers!)
                 {
                     if (item.CheckCoordinate(coordinate))
                     {
@@ -154,8 +145,7 @@ namespace Maze
             }
             _player.Step(coordinate);
         }
-
-        public void GetYes()
+        public void GetInteractivePaths()
         {
             _treasureChambers = new List<Coordinate>();
             _exits = new List<Coordinate>();
@@ -193,7 +183,6 @@ namespace Maze
                 _exits!.Add(item);
             }
         }
-
         public bool IsOnTheMap(Coordinate coordinate)
         {
             foreach (Path item in _map!)
@@ -205,10 +194,9 @@ namespace Maze
             }
             return false;
         }
-
         public int GetMapPassableLength()
         {
-            int length = _map.Length;
+            int length = _map!.Length;
             foreach (var item in _map)
             {
                 if (item.Item == '.' || item.Item == '█' || item.Item == ' ')
@@ -218,7 +206,6 @@ namespace Maze
             }
             return length;
         }
-
         public int StepByDifficulty()
         {
             return GetMapPassableLength() * (int)_difficulty;

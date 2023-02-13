@@ -11,9 +11,9 @@ namespace Maze
 {
     internal class Program
     {
-        static private Maze _maze;
-        static private Player _player;
-        static private string message = String.Empty;
+        static private Maze? _maze;
+        static private ConsoleColor _color = ConsoleColor.Green;
+        static private string message = string.Empty;
         static private Dictionary<int, string>? _hungarianWords;
         static private Dictionary<int, string>? _englishWords;
         static string GlobalLanguage(int index)
@@ -27,9 +27,9 @@ namespace Maze
                 { 1, "Beállítások"},
                 { 2, "Kilépés"},
                 { 3, "Nehézségi beállítások"},
-                { 4, "Válasszon nehézséget: "},
+                { 4, "Válassz nehézséget: "},
                 { 6, "A fájl nem található"},
-                { 7, "Nyomja meg az (esc) gombot a játékbenü megnyitásához"},
+                { 7, "Nyomd meg az (esc) gombot a játékbenü megnyitásához"},
                 { 8, "Játék elmentve"},
                 { 10, "Karakter színe"},
                 { 11, "Nyelv"},
@@ -46,9 +46,9 @@ namespace Maze
                 { 24, "Hátralévő idő: "},
                 { 30, "Magyar"},
                 { 31, "Angol"},
-                { 32, "Válasszon nyelvet: "},
+                { 32, "Válassz nyelvet: "},
                 { 40, "Játék betöltése: "},
-                { 42, "Elfogytak a lépései" },
+                { 42, "Elfogytak a lépéseid" },
                 { 50, "Könnyű"},
                 { 51, "Haladó"},
                 { 52, "Nehéz"},
@@ -56,7 +56,7 @@ namespace Maze
                 { 90, "Folytatás"},
                 { 91, "Mentés"},
                 { 92, "Kilépés"},
-                { 98, "Nyomja meg az igen (y) gombot a megerősítéshez/ Nyomja meg a nem (n) gombot a visszalépéshez"},
+                { 98, "Nyomd meg az igen (y) gombot a megerősítéshez/ Nyomd meg a nem (n) gombot a visszalépéshez"},
                 { 99, "Biztosan kiakarsz lépni?"},
                 { 101, "Tényleg ugrani akartál egy felülnézetes játékban?"},
                 { 110, "Piros"},
@@ -66,10 +66,14 @@ namespace Maze
                 { 114, "Lila"},
                 { 115, "Játék vége"},
                 { 116, "Mentés neve: "},
-                { 117, "Nyomja meg az (y) a kilépéshez"},
+                { 117, "Nyomd meg az (y) a kilépéshez"},
                 { 118, "Fájlnév: " },
                 { 119, "Üres a labirintus"},
-                { 120, "Biztosan ki akarsz lépni a labirintusból? "}
+                { 120, "Biztosan ki akarsz lépni a labirintusból? "},
+                { 121, "Hibás fájl"},
+                { 122, "Biztos ki szeretnél lépni a labirintusból?"},
+                { 123, "El szeretnéd menteni a játékot? " },
+                { 124, "Igen(y) / Nem(n)"}
             };
             _englishWords = new Dictionary<int, string> {
                 { 0, "Start the game" },
@@ -118,14 +122,17 @@ namespace Maze
                 { 117, "Press (y) to leave"},
                 { 118, "File name: " },
                 { 119, "The labyrinth is empty"},
-                { 120, "Are you sure you want to leave the labyrinth?"}
+                { 120, "Are you sure you want to leave the labyrinth?"},
+                { 121, "The file is incorrect"},
+                { 122, "Are you sure you want to leave the game?"},
+                { 123, "Do you want to save the game? "},
+                { 124, "Yes(y) / No(n)"}
             };
 
         }
         static void Main(string[] args)
         {
             InitializeLanguages();
-            _player = new Player();
             MainMenu();
         }
         static void MainMenu()
@@ -241,7 +248,7 @@ namespace Maze
             do
             {
                 Console.Clear();
-                Console.Write(GlobalLanguage(32));
+                Console.Write($"\n{GlobalLanguage(32)}\n");
                 for (int i = 30; i < 32; i++)
                 {
                     if (i == selectedOption)
@@ -288,7 +295,7 @@ namespace Maze
             do
             {
                 Console.Clear();
-                Console.Write($"\n{GlobalLanguage(32)}\n{message}\n");
+                Console.Write($"\n{GlobalLanguage(32)}\n");
                 for (int i = 110; i < 115; i++)
                 {
                     if (i == selectedOption)
@@ -310,7 +317,7 @@ namespace Maze
                         selectedOption = selectedOption <= 110 ? 114 : selectedOption - 1;
                         break;
                     case ConsoleKey.Enter:
-                        _player.SetColor((ConsoleColor)Enum.Parse(typeof(ConsoleColor), _englishWords[selectedOption]));
+                        _color = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), _englishWords[selectedOption]);
                         exit = true;
                         break;
                 }
@@ -323,7 +330,6 @@ namespace Maze
             do
             {
                 Console.Clear();
-                //Console.Write($"\n{GlobalLanguage(32)}\n{message}\n");
                 for (int i = 40; i < 41; i++)
                 {
                     if (i == selectedOption)
@@ -354,7 +360,8 @@ namespace Maze
         static void Display(string? message)
         {
             Console.Clear();
-            Console.Write($"{GlobalLanguage(20)} {_maze.Player.Steps}\t {GlobalLanguage(21)} {_maze.Player.RemainingSteps}\t TC:{_maze.Player.Treasure}\n");
+            Console.Write($"{GlobalLanguage(20)} {_maze!.Player.Steps}\t {GlobalLanguage(21)} {_maze!.Player.RemainingSteps}\t TC:{_maze!.Player.Treasure}\n");
+            Console.WriteLine($"{_maze!.Player.Coordinate}");
             try
             {
                 for (int y = 0; y < _maze!.Height; y++)
@@ -408,19 +415,19 @@ namespace Maze
                             break;
                         case ConsoleKey.A:
                         case ConsoleKey.LeftArrow:
-                            _maze.MovePlayer(Direction.West);
+                            _maze!.MovePlayer(Direction.West);
                             break;
                         case ConsoleKey.W:
                         case ConsoleKey.UpArrow:
-                            _maze.MovePlayer(Direction.North);
+                            _maze!.MovePlayer(Direction.North);
                             break;
                         case ConsoleKey.D:
                         case ConsoleKey.RightArrow:
-                            _maze.MovePlayer(Direction.East);
+                            _maze!.MovePlayer(Direction.East);
                             break;
                         case ConsoleKey.S:
                         case ConsoleKey.DownArrow:
-                            _maze.MovePlayer(Direction.South);
+                            _maze!.MovePlayer(Direction.South);
                             break;
                         case ConsoleKey.Spacebar:
                             message = GlobalLanguage(101);
@@ -437,9 +444,7 @@ namespace Maze
                     exit = true;
                 }
                 catch (GiveupException)
-                {
-                    //TODO rename
-                    
+                {                   
                     if (Console.ReadKey(true).Key == ConsoleKey.Y)
                     {
                         Thread.Sleep(1000);
@@ -448,18 +453,23 @@ namespace Maze
                 }
                 catch (EndGameException)
                 {
-                    //TODO rename
                     Console.WriteLine(GlobalLanguage(120));
-                    if (Console.ReadKey(true).Key == ConsoleKey.Y)
+                    Console.WriteLine(GlobalLanguage(124));
+                    switch (Console.ReadKey(true).Key)
                     {
-                        Thread.Sleep(1000);
-                        exit = true;
+                        case ConsoleKey.Y:
+                            Thread.Sleep(1000);
+                            exit= true;
+                            break;
+                        case ConsoleKey.N:
+                            exit= false;
+                            break;
+                        default:
+                            break;
                     }
                 }
                 catch (Exception ex)
                 {
-                    //TODO rename
-                    Console.WriteLine(ex.Message);
                     Console.WriteLine(ex);
                 }
             } while (!exit);
@@ -504,8 +514,30 @@ namespace Maze
                                 message = GlobalLanguage(8);
                                 break;
                             case 92:
-                                MainMenu();
-                                exit = true;
+                                Console.WriteLine(GlobalLanguage(122));
+                                Console.WriteLine(GlobalLanguage(124));
+                                switch (Console.ReadKey(true).Key)
+                                {
+                                    case ConsoleKey.Y:
+                                        Console.WriteLine(GlobalLanguage(123));
+                                        Console.WriteLine(GlobalLanguage(124));
+                                        switch (Console.ReadKey(true).Key)
+                                        {
+                                            case ConsoleKey.Y:
+                                                SaveGame();
+                                                MainMenu();
+                                                exit = true;
+                                                break;
+                                            case ConsoleKey.N:
+                                                MainMenu();
+                                                exit = true;
+                                                break;
+                                        }
+                                        break;
+                                    case ConsoleKey.N:
+                                        exit = false;
+                                        break;
+                                }
                                 break;
                             default:
                                 break;
@@ -519,8 +551,7 @@ namespace Maze
         }
         static void EndGame(string elapsedTime)
         {
-            Console.WriteLine($"{GlobalLanguage(115)} - {elapsedTime}");
-            Console.WriteLine(GlobalLanguage(117));
+            Console.WriteLine($"{GlobalLanguage(115)} - {elapsedTime} - {GlobalLanguage(22)}  {_maze!.Player.Treasure}");
             while (true)
             {
                 if (Console.ReadKey(true).Key == ConsoleKey.Y)
@@ -537,28 +568,48 @@ namespace Maze
                 try
                 {
                     Console.Clear();
-                    Console.Write($"\n{message}\n{GlobalLanguage(118)}");
-                    string filename = Console.ReadLine();
+                    Console.Write($"\n{GlobalLanguage(118)}");
+                    string filename = Console.ReadLine()!;
                     if (filename.EndsWith(".txt"))
                     {
-                        _maze = new Maze(File.ReadAllLines(filename), ChooseDifficulty(), _player);
+                        _maze = new Maze(File.ReadAllLines(filename), ChooseDifficulty(), new Player(_color));
                         exit = true;
                     }
                     else if (filename.EndsWith(".sav"))
                     {
-                        StreamReader streamReader = new StreamReader(filename);
-                        // player betölése
-                        Console.WriteLine(streamReader.ReadLine());
-                        // pálya betöltése
-                        while (!streamReader.EndOfStream)
+                        StreamReader? streamReader = null;
+                        try
                         {
-                            foreach (Char item in streamReader.ReadLine())
+                            streamReader = new StreamReader(filename);
+                            // player betölése
+                            string[] infos = streamReader.ReadLine()!.Split(';');
+
+                            // pálya betöltése
+                            List<string> tempMap = new List<string>();
+                            while (!streamReader.EndOfStream)
                             {
-                                Console.Write(item);
+                                tempMap.Add(streamReader.ReadLine()!);
                             }
-                            Console.WriteLine();
+
+                            Player player = new Player(new Coordinate(infos[0].Substring(2)),
+                                _color,
+                                int.Parse(infos[1].Substring(2)),
+                                int.Parse(infos[3].Substring(2)));
+
+                            _maze = new Maze(
+                                tempMap.ToArray(),
+                                (Difficulty)Enum.Parse(typeof(Difficulty), infos[2].Substring(2)),
+                                player);
+
+                            _maze.Player.SetRemainingSteps(_maze.StepByDifficulty());
+                            exit = true;
                         }
-                        exit = true;
+                        finally
+                        {
+                            streamReader!.Peek();
+                            streamReader!.Close();
+                        }
+
                     }
                 }
                 catch (FileNotFoundException)
@@ -567,7 +618,10 @@ namespace Maze
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(GlobalLanguage(121));
                     Console.WriteLine(ex.Message);
+                    Thread.Sleep(1000);
+                    Console.ReadKey();
                     throw;
                 }
             } while (!exit);
@@ -580,7 +634,7 @@ namespace Maze
             do
             {
                 Console.Clear();
-                Console.Write($"\n{GlobalLanguage(4)}\n{message}\n");
+                Console.Write($"\n{GlobalLanguage(4)}\n");
                 for (int i = 50; i < 54; i++)
                 {
                     if (i == selectedOption)
@@ -612,37 +666,42 @@ namespace Maze
         }
         static void SaveGame()
         {
+            StreamWriter? streamWriter = null;
             try
             {
                 Console.Clear();
                 Console.WriteLine(GlobalLanguage(116));
-                string filename = Console.ReadLine();
+                string filename = Console.ReadLine()!;
                 if (!filename.EndsWith(".sav")) filename += ".sav";
 
-                StreamWriter streamWriter = new StreamWriter(filename);
+                streamWriter = new StreamWriter(filename);
 
                 // infos
-                // direkt nem tároljuk a maradék lépéseket, hogy könnyebben lehessen csalni.
-                streamWriter.WriteLine($"P:{_player.Coordinate};S:{_player.Steps};D:{_maze.Difficulty};TC:{_player.Treasure};T:{""}");
-                Console.WriteLine($"P:{_player.Coordinate};S:{_player.Steps};D:{_maze.Difficulty};TC:{_player.Treasure};T:{""}");
+                streamWriter.WriteLine($"P:{_maze!.Player.Coordinate.ToFile()};S:{_maze!.Player.Steps};D:{_maze!.Difficulty};T:{_maze!.Player.Treasure};C:{""}");
 
                 // map
                 for (int y = 0; y < _maze.Height; y++)
                 {
                     for (int x = 0; x < _maze.Width; x++)
                     {
-                        streamWriter.Write(_maze.Map[y, x].Item);
+                        streamWriter.Write(_maze.GetMapItem(y, x));
                     }
                     streamWriter.WriteLine();
                 }
             }
             catch (Exception ex)
             {
-                //TODO rename
-                Console.WriteLine();
                 Console.WriteLine(ex.Message);
                 Console.ReadKey();
             }
+            finally
+            {
+                if (streamWriter != null)
+                {
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+            }           
         }
     }
 }
