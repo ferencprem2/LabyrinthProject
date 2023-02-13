@@ -31,6 +31,7 @@ namespace Maze
                 { 6, "A fájl nem található"},
                 { 7, "Nyomd meg az (esc) gombot a játékbenü megnyitásához"},
                 { 8, "Játék elmentve"},
+                { 9, "Irányítás" },
                 { 10, "Karakter színe"},
                 { 11, "Nyelv"},
                 { 12, "Vissza a menübe"},
@@ -73,7 +74,9 @@ namespace Maze
                 { 121, "Hibás fájl"},
                 { 122, "Biztos ki szeretnél lépni a labirintusból?"},
                 { 123, "El szeretnéd menteni a játékot? " },
-                { 124, "Igen(y) / Nem(n)"}
+                { 124, "Igen(y) / Nem(n)"},
+                { 125, "A w;a;s;d billentyűkkel vagy a nyilakkal tudsz mozogni"},
+                { 126, "Vissza a beállításokhoz"}
             };
             _englishWords = new Dictionary<int, string> {
                 { 0, "Start the game" },
@@ -84,6 +87,7 @@ namespace Maze
                 { 6, "Couldn't find the file"},
                 { 7, "Press (esc) to open the Pause Menu"},
                 { 8, "Game saved"},
+                { 9, "Controls"},
                 { 10, "Player Color" },
                 { 11, "Language" },
                 { 12, "Return to menu"},
@@ -126,7 +130,9 @@ namespace Maze
                 { 121, "The file is incorrect"},
                 { 122, "Are you sure you want to leave the game?"},
                 { 123, "Do you want to save the game? "},
-                { 124, "Yes(y) / No(n)"}
+                { 124, "Yes(y) / No(n)"},
+                { 125, "You can move with w;a;s;d or with the arrow keys"},
+                { 126, "Back to the settings"}
             };
 
         }
@@ -193,15 +199,57 @@ namespace Maze
                 }
             } while (!exit);
         }
-        static void SettingsMenu()
+
+        static void KeyBinds()
         {
             bool exit = false;
-            int selectedOption = 10;
+            int selectedOption = 125;
             do
             {
                 Console.Clear();
-                Console.Write($"\n{message}\n\n");
-                for (int i = 10; i < 13; i++)
+                Console.WriteLine($"\n{GlobalLanguage(9)}:\n");
+
+                for (int i = 125; i < 127; i++)
+                {
+                    if (i == selectedOption)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Green;
+                    }
+                    Console.WriteLine(GlobalLanguage(i));
+                    Console.ResetColor();
+                }
+                Console.Write("\n\n\n");
+                switch (Console.ReadKey(true).Key)
+                {
+                    case ConsoleKey.S:
+                    case ConsoleKey.DownArrow:
+                        selectedOption = selectedOption >= 126 ? 125 : selectedOption + 1;
+                        break;
+                    case ConsoleKey.W:
+                    case ConsoleKey.UpArrow:
+                        selectedOption = selectedOption <= 125 ? 126 : selectedOption - 1;
+                        break;
+                    case ConsoleKey.Enter:
+                        switch (selectedOption)
+                        {
+                            case 126:
+                                exit = true;
+                                break;
+                        }
+                        break;
+                }
+
+            } while (!exit);
+        }
+
+        static void SettingsMenu()
+        {
+            bool exit = false;
+            int selectedOption = 9;
+            do
+            {
+                Console.Clear();
+                for (int i = 9; i < 13; i++)
                 {
                     if (i == selectedOption)
                     {
@@ -216,15 +264,18 @@ namespace Maze
                 {
                     case ConsoleKey.S:
                     case ConsoleKey.DownArrow:
-                        selectedOption = selectedOption >= 12 ? 10 : selectedOption + 1;
+                        selectedOption = selectedOption >= 12 ? 9 : selectedOption + 1;
                         break;
                     case ConsoleKey.W:
                     case ConsoleKey.UpArrow:
-                        selectedOption = selectedOption <= 10 ? 12 : selectedOption - 1;
+                        selectedOption = selectedOption <= 9 ? 12 : selectedOption - 1;
                         break;
                     case ConsoleKey.Enter:
                         switch (selectedOption)
                         {
+                            case 9:
+                                KeyBinds();
+                                break;
                             case 10:
                                 ChooseColor();
                                 break;
