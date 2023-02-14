@@ -9,8 +9,10 @@ namespace Maze
 {
     public class Path
     {
-        // test
+        
+        //The item(character) of each coordinate
         private readonly char _item;
+        //Setting up some cases for the game
         private bool _isExit, _isWall, _isTreasure, _west, _north, _east, _south;
         private Coordinate _coordinate;
         public char Item => _item;
@@ -20,7 +22,7 @@ namespace Maze
         public bool South => _south;
         public bool IsExit => _isExit;
         public Coordinate Coordinate => _coordinate;
-        // idegesít
+
         public Path() { }
         public Path(char item, bool isWall, bool isTreasure, bool west, bool north, bool east, bool south)
         {
@@ -63,15 +65,8 @@ namespace Maze
             _east = east;
             _south = south;
         }
-        public void SetIndex(Coordinate coordinate)
-        {
-            _coordinate = coordinate;
-        }
-        public void SetExit(bool isExit)
-        {
-            _isExit = isExit;
-        }
 
+        //Returns the coordinate of something you want
         public Coordinate GetCoordinateOf(Direction direction)
         {
             switch (direction)
@@ -85,7 +80,6 @@ namespace Maze
                 case Direction.South:
                     return new Coordinate(_coordinate.Y + 1, _coordinate.X);
             }
-            // Nem futhatna ide be
             return _coordinate;
         }
     }

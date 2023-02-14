@@ -9,6 +9,7 @@ namespace Maze
 {
     internal class Maze
     {
+        //List of all the coompontent of the map, and some conditions to them
         static public List<Path> dirtyWordsXAML = new List<Path>()
         {
             new Path('.', isWall: true, isTreasure: false, west: false, north: false, east: false, south: false),
@@ -55,9 +56,6 @@ namespace Maze
         private Difficulty _difficulty;
         public Difficulty Difficulty => _difficulty;
 
-        //TODO Timer
-
-
         public Maze(string[] data, Difficulty difficulty, Player player)
         {
             _map = null;
@@ -78,6 +76,7 @@ namespace Maze
             }
         }
 
+        //Loads the map from the given file
         public void LoadMap(string[] data)
         {
             _map = new Path[data.Length, data[0].Length];
@@ -90,14 +89,18 @@ namespace Maze
                 }
             }
         }
+        //Returns the item on each coordinate
         public char GetMapItem(Coordinate coordinate)
         {
             return _map![coordinate.Y, coordinate.X].Item;
         }
+
+        //Returns the item on each index of the map
         public char GetMapItem(int y, int x)
         {
             return _map![y, x].Item;
         }
+        //Moves the player int the maze
         public void MovePlayer(Direction direction)
         {
             Coordinate coordinate = _player.Coordinate;
@@ -183,6 +186,7 @@ namespace Maze
                 _exits!.Add(item);
             }
         }
+        //Watches if 
         public bool IsOnTheMap(Coordinate coordinate)
         {
             foreach (Path item in _map!)
@@ -193,7 +197,8 @@ namespace Maze
                 }
             }
             return false;
-        }
+        } 
+        //Returns the number of the map compontent that you can go on
         public int GetMapPassableLength()
         {
             int length = _map!.Length;
@@ -206,6 +211,7 @@ namespace Maze
             }
             return length;
         }
+        //Calculates the max steps by the given difficulty
         public int StepByDifficulty()
         {
             return GetMapPassableLength() * (int)_difficulty;

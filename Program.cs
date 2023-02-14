@@ -11,15 +11,22 @@ namespace Maze
 {
     internal class Program
     {
+        //Initialize the maze
         static private Maze? _maze;
+        //Initialize the color
         static private ConsoleColor _color = ConsoleColor.Green;
+        //Message variable for custom meassages
         static private string message = string.Empty;
+        //Dictionary with hungarian words in it for globalisation
         static private Dictionary<int, string>? _hungarianWords;
+        //Dictionary with english words in it for globalisation
         static private Dictionary<int, string>? _englishWords;
+        //Returns the words in accordance to the language choice
         static string GlobalLanguage(int index)
         {
             return Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName == "hu" ? _hungarianWords![index] : _englishWords![index];
         }
+        //Holds the dictionarys with the words
         static void InitializeLanguages()
         {
             _hungarianWords = new Dictionary<int, string> {
@@ -76,7 +83,8 @@ namespace Maze
                 { 123, "El szeretnéd menteni a játékot? " },
                 { 124, "Igen(y) / Nem(n)"},
                 { 125, "A w;a;s;d billentyűkkel vagy a nyilakkal tudsz mozogni"},
-                { 126, "Vissza a beállításokhoz"}
+                { 126, "Pause menu megynyitása az (esc) billentyűvel"},
+                { 127, "Vissza a beállításokhoz"}
             };
             _englishWords = new Dictionary<int, string> {
                 { 0, "Start the game" },
@@ -132,7 +140,8 @@ namespace Maze
                 { 123, "Do you want to save the game? "},
                 { 124, "Yes(y) / No(n)"},
                 { 125, "You can move with w;a;s;d or with the arrow keys"},
-                { 126, "Back to the settings"}
+                { 126, "You can open the pause menu with the (esc) key"},
+                { 127, "Back to the settings"}
             };
 
         }
@@ -141,6 +150,7 @@ namespace Maze
             InitializeLanguages();
             MainMenu();
         }
+        //Function of the main menu
         static void MainMenu()
         {
             int selectedOption = 0;
@@ -199,7 +209,7 @@ namespace Maze
                 }
             } while (!exit);
         }
-
+        //Function of the keybinds menu
         static void KeyBinds()
         {
             bool exit = false;
@@ -209,7 +219,7 @@ namespace Maze
                 Console.Clear();
                 Console.WriteLine($"\n{GlobalLanguage(9)}:\n");
 
-                for (int i = 125; i < 127; i++)
+                for (int i = 125; i < 128; i++)
                 {
                     if (i == selectedOption)
                     {
@@ -223,16 +233,16 @@ namespace Maze
                 {
                     case ConsoleKey.S:
                     case ConsoleKey.DownArrow:
-                        selectedOption = selectedOption >= 126 ? 125 : selectedOption + 1;
+                        selectedOption = selectedOption >= 127 ? 125 : selectedOption + 1;
                         break;
                     case ConsoleKey.W:
                     case ConsoleKey.UpArrow:
-                        selectedOption = selectedOption <= 125 ? 126 : selectedOption - 1;
+                        selectedOption = selectedOption <= 125 ? 127 : selectedOption - 1;
                         break;
                     case ConsoleKey.Enter:
                         switch (selectedOption)
                         {
-                            case 126:
+                            case 127:
                                 exit = true;
                                 break;
                         }
@@ -242,6 +252,7 @@ namespace Maze
             } while (!exit);
         }
 
+        //Function of the settings menu
         static void SettingsMenu()
         {
             bool exit = false;
@@ -292,6 +303,7 @@ namespace Maze
                 }
             } while (!exit);
         }
+        //The function the player can select the language of the game with
         static void ChooseLanguage()
         {
             bool exit = false;
@@ -339,6 +351,7 @@ namespace Maze
                 }
             } while (!exit);
         }
+        //The function the player can select the color of their character with
         static void ChooseColor()
         {
             bool exit = false;
@@ -374,6 +387,7 @@ namespace Maze
                 }
             } while (!exit);
         }
+        //Function of the game starter menu
         static void StartGameMenu()
         {
             bool exit = false;
@@ -408,6 +422,7 @@ namespace Maze
                 }
             } while (!exit);
         }
+        //Funtion that displays the map and the other necessary informations
         static void Display(string? message)
         {
             Console.Clear();
@@ -441,6 +456,7 @@ namespace Maze
             }
             Console.Write("\n\n\n");
         }
+        //Changes the '.' character with white spaces
         static char GetVoidChar(char c)
         {
             if (c == '.')
@@ -449,6 +465,7 @@ namespace Maze
             }
             return c;
         }
+        //Function of the main game
         static void Game()
         {
             bool exit = false;
@@ -525,6 +542,7 @@ namespace Maze
                 }
             } while (!exit);
         }
+        //Funtion of the game pause menu
         static void GamePauseMenu()
         {
             bool exit = false;
@@ -600,6 +618,7 @@ namespace Maze
             } while (!exit);
 
         }
+        //Function that ends the game with the 'y' key
         static void EndGame(string elapsedTime)
         {
             Console.WriteLine($"{GlobalLanguage(115)} - {elapsedTime} - {GlobalLanguage(22)}  {_maze!.Player.Treasure}");
@@ -611,6 +630,7 @@ namespace Maze
                 }
             }
         }
+        //Function that loads the game from a txt or loads a save
         static void LoadGame()
         {
             bool exit = false;
@@ -677,6 +697,7 @@ namespace Maze
                 }
             } while (!exit);
         }
+        //Function that the player can choose a difficulty with
         static Difficulty ChooseDifficulty()
         {
             bool exit = false;
@@ -715,6 +736,7 @@ namespace Maze
             } while (!exit);
             return difficulty;
         }
+        //Function that saves the game according to the choices of the player
         static void SaveGame()
         {
             StreamWriter? streamWriter = null;
