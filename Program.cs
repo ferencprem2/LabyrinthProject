@@ -84,7 +84,8 @@ namespace Maze
                 { 124, "Igen(y) / Nem(n)"},
                 { 125, "A w;a;s;d billentyűkkel vagy a nyilakkal tudsz mozogni"},
                 { 126, "Pause menu megynyitása az (esc) billentyűvel"},
-                { 127, "Vissza a beállításokhoz"}
+                { 127, "Vissza a beállításokhoz"},
+                { 128, "Nyomd meg az (enter)-t az elfogadáshoz"}
             };
             _englishWords = new Dictionary<int, string> {
                 { 0, "Start the game" },
@@ -141,7 +142,8 @@ namespace Maze
                 { 124, "Yes(y) / No(n)"},
                 { 125, "You can move with w;a;s;d or with the arrow keys"},
                 { 126, "You can open the pause menu with the (esc) key"},
-                { 127, "Back to the settings"}
+                { 127, "Back to the settings"},
+                { 128, "Press (enter) to confirm"}
             };
 
         }
@@ -155,6 +157,7 @@ namespace Maze
         {
             int selectedOption = 0;
             bool exit = false;
+            message = GlobalLanguage(128);
             do
             {
                 Console.Clear();

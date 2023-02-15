@@ -8,26 +8,25 @@
     "net7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\tanulo\\.nuget\\packages\\": {}
+    "/Users/ferenc/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Prém Ferenc\\Labyrinth\\Labirintus\\Labyrinth.csproj",
+      "projectUniqueName": "/Users/ferenc/Documents/ProgrammingStuff/C#/LabyrinthProject/Labyrinth.csproj",
       "projectName": "Labyrinth",
-      "projectPath": "D:\\Prém Ferenc\\Labyrinth\\Labirintus\\Labyrinth.csproj",
-      "packagesPath": "C:\\Users\\tanulo\\.nuget\\packages\\",
-      "outputPath": "D:\\Prém Ferenc\\Labyrinth\\Labirintus\\obj\\",
+      "projectPath": "/Users/ferenc/Documents/ProgrammingStuff/C#/LabyrinthProject/Labyrinth.csproj",
+      "packagesPath": "/Users/ferenc/.nuget/packages/",
+      "outputPath": "/Users/ferenc/Documents/ProgrammingStuff/C#/LabyrinthProject/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\tanulo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/ferenc/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -51,11 +50,17 @@
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.102/RuntimeIdentifierGraph.json"
       }
     }
   }
