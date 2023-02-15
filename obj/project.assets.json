@@ -8,19 +8,19 @@
     "net7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\user\\.nuget\\packages\\": {}
+    "C:\\Users\\tanulo\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\C#\\Labyrinth\\Labyrinth\\Labyrinth.csproj",
+      "projectUniqueName": "D:\\Prém Ferenc\\Labyrinth\\Labirintus\\Labyrinth.csproj",
       "projectName": "Labyrinth",
-      "projectPath": "D:\\C#\\Labyrinth\\Labyrinth\\Labyrinth.csproj",
-      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "D:\\C#\\Labyrinth\\Labyrinth\\obj\\",
+      "projectPath": "D:\\Prém Ferenc\\Labyrinth\\Labirintus\\Labyrinth.csproj",
+      "packagesPath": "C:\\Users\\tanulo\\.nuget\\packages\\",
+      "outputPath": "D:\\Prém Ferenc\\Labyrinth\\Labirintus\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tanulo\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -51,17 +51,11 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "frameworkReferences": {
-          "Microsoft.NETCore.App": {
-            "privateAssets": "all"
-          }
-        },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

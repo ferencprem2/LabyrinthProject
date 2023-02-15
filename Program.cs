@@ -672,7 +672,7 @@ namespace Maze
                                 (Difficulty)Enum.Parse(typeof(Difficulty), infos[2].Substring(2)),
                                 player);
 
-                            _maze.Player.SetRemainingSteps(_maze.StepByDifficulty());
+                            _maze.Player.SetRemainingSteps(_maze.StepByDifficulty() - _maze.Player.Steps);
                             exit = true;
                         }
                         finally
